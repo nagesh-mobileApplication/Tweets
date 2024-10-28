@@ -3,6 +3,8 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
     alias(libs.plugins.hilt)
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.compose.compiler)
 }
 
 android {
@@ -73,7 +75,7 @@ dependencies {
 
     //HILT
     implementation (libs.hilt.android)
-    kapt (libs.hilt.compiler)
+    ksp(libs.hilt.android.compiler)
 
     //Coroutines
     implementation (libs.kotlinx.coroutines.core)
@@ -90,7 +92,7 @@ dependencies {
 
     // Hilt for Android Testing
     androidTestImplementation (libs.google.hilt.android.testing)
-    kaptAndroidTest (libs.hilt.android.compiler)
+    kspAndroidTest(libs.hilt.android.compiler)
 
     //Testing
     testImplementation(libs.junit)
