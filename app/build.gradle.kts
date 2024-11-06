@@ -9,11 +9,11 @@ plugins {
 
 android {
     namespace = "in.tweets"
-    compileSdk = 34
+    compileSdk = libs.versions.compileSdk.get().toInt()
 
     defaultConfig {
         applicationId = "in.tweets"
-        minSdk = 24
+        minSdk = libs.versions.minSdk.get().toInt()
         targetSdk = libs.versions.targetSdk.get().toInt()
         versionCode = 1
         versionName = "1.0"
@@ -50,6 +50,26 @@ android {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
+    }
+
+    lint{
+        abortOnError = true // Fails the build on serious lint errors
+        checkReleaseBuilds = true // Runs lint checks on release builds
+
+        // Optionally enable or disable specific checks
+        disable += listOf("TypographyFractions", "TypographyQuotes") // Disable specific checks
+        enable += listOf("NewApi", "InlinedApi") // Enable specific checks
+
+        // Configure report formats
+        textOutput = file("stdout") // Print lint results to the console
+        xmlReport = true // Enable XML report
+        htmlReport = true // Enable HTML report
+
+        // Specify report locations using layout.buildDirectory
+        htmlOutput = layout.buildDirectory.file("reports/lint/lint-report.html").get().asFile
+        xmlOutput = layout.buildDirectory.file("reports/lint/lint-report.xml").get().asFile
+
+        checkDependencies = true
     }
 }
 
@@ -93,6 +113,9 @@ dependencies {
     // Hilt for Android Testing
     androidTestImplementation (libs.google.hilt.android.testing)
     kspAndroidTest(libs.hilt.android.compiler)
+
+    //splashScreen
+    implementation (libs.androidx.core.splashscreen)
 
     //Testing
     testImplementation(libs.junit)
